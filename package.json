@@ -1,0 +1,31 @@
+{
+  "name": "sfmovies",
+  "version": "1.0.0",
+  "description": "sfmovies",
+  "main": "gulpfile.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "jasmine": "^2.3.2",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-jasmine": "^0.3.6",
+    "karma-chrome-launcher": "^0.2.0",
+    "brfs": "^1.4.0",
+    "karma-browserify": "^4.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/e0001ed9/sfmovies.git"
+  },
+  "author": "e0001ed9",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/e0001ed9/sfmovies/issues"
+  },
+  "homepage": "https://github.com/e0001ed9/sfmovies#readme"
+}
