@@ -2,3 +2,51 @@
   width: 80%;
   background: #aaa;
 }
+
+.movies {
+  width: 100%;
+  overflow: hidden;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 30px;
+  -webkit-column-fill: auto;
+  -moz-column-count: 3;
+  -moz-column-gap: 30px;
+  -moz-column-fill: auto;
+  column-count: 3;
+  column-gap: 30px;
+  column-fill: auto;
+  background: #ddd;
+}
+
+.movie {
+  margin-bottom: 30px;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  column-break-inside: avoid;
+}
+
+.movie img {
+  width: 236px;
+}
+
+@media only screen and ( max-width: 640px ) {
+  .movies {
+    -webkit-column-count: 2;
+    -webkit-column-gap: 15px;
+    -moz-column-count: 2;
+    -moz-column-gap: 15px;
+    column-count: 2;
+    column-gap: 15px;
+  }
+
+  .movie {
+    margin-bottom: 15px; /* 15px */
+  }
+}
+@media only screen and ( max-width: 320px ) {
+  .movie {
+    -webkit-column-count: auto;
+    -moz-column-count: auto;
+    column-count: auto;
+  }
+}
