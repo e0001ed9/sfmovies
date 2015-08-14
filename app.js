@@ -1,4 +1,6 @@
-import React from 'react';
-import Container from './src/view/container';
+import 'babel-core/polyfill';
 
-React.render(<Container/>, document.body);
+import React from 'react';
+import Root from './src/view/root';
+
+React.render(<Root/>, document.body);
