@@ -1,7 +1,10 @@
 import React from 'react';
+import ControlPanel from './control_panel';
 
 export default React.createClass({
   render: function() {
-    return <div class=".container">I'm a container!</div>;
+    return <div className="container">
+             <ControlPanel/>
+           </div>;
   }
 });
