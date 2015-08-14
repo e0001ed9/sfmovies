@@ -8,7 +8,7 @@ module.exports = function(config) {
     },
     browserify: {
       debug: true,
-      transform: [ 'brfs' ]
+      transform: [ 'babelify', 'brfs' ]
     }
   });
 };

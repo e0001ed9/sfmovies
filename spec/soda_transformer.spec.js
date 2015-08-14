@@ -1,6 +1,6 @@
 "use strict";
 
-var sodaTransformer = require("../src/soda_transformer.js");
+import sodaTransformer from "../src/soda_transformer.js";
 
 describe("sodaTransformer", function () {
 
