@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import ControlPanelFilterText from './control_panel_filter_text';
 
 const placeholder = 'filter...';
 

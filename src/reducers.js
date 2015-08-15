@@ -1,13 +1,33 @@
 import { combineReducers } from 'redux';
-import { FILTER_TEXT, REQUEST_MOVIES, RECEIVE_MOVIES, REQUEST_OMDB, RECEIVE_OMDB } from './actions';
+import { FILTER_TEXT, CHANGE_DATE_RANGE, SHOW_NO_POSTER } from './actions';
+import { REQUEST_MOVIES, RECEIVE_MOVIES, REQUEST_OMDB, RECEIVE_OMDB } from './actions';
 
 const userInputReductions = {
-  [ FILTER_TEXT ]: (state, action) => Object.assign({}, state, { text: action.text })
+  [ FILTER_TEXT ]: (state, action) => {
+    return Object.assign({}, state, { text: action.text });
+  },
+  [ CHANGE_DATE_RANGE ]: (state, action) => {
+    return Object.assign({}, state, { minYear: action.minYear, maxYear: action.maxYear});
+  },
+  [ SHOW_NO_POSTER ]: (state, action) => {
+    return Object.assign({}, state, { showNoPoster: action.showNoPoster });
+  }
 };
 
 const movieReductions = {
   [ REQUEST_MOVIES ]: (state) => Object.assign({}, state, { isFetching: true }),
-  [ RECEIVE_MOVIES ]: (state, action) => Object.assign({}, state, { movies: action.movies }),
+  [ RECEIVE_MOVIES ]: (state, action) => {
+    const { earliestYear, latestYear } = action.movies.reduce(({earliestYear, latestYear}, movie) => {
+      earliestYear = Math.min(earliestYear, movie.release_year);
+      latestYear = Math.max(latestYear, movie.release_year);
+
+      return { earliestYear, latestYear };
+    }, { earliestYear: 10000, latestYear: 0 });
+
+    const hasFetched = true;
+
+    return Object.assign({}, state, { movies: action.movies, earliestYear, latestYear, hasFetched })
+  },
   [ REQUEST_OMDB ]: (state, action) => {
     // currently unused
     return Object.assign({}, state, {
@@ -45,6 +65,6 @@ function createReducer(reductions, initialState = {}) {
 }
 
 export default combineReducers({
-  filters: createReducer(userInputReductions, { text: '' } ),
-  movies: createReducer(movieReductions, { isFetching: false, movies: [] })
+  filters: createReducer(userInputReductions, { text: '', minYear: 1800, maxYear: 3000, showNoPoster: true } ),
+  moviesState: createReducer(movieReductions, { isFetching: false, movies: [] })
 });

@@ -7,8 +7,20 @@ function containsFilterText(movie, filters) {
          (movie.plot && movie.plot.toLowerCase().includes(text));
 }
 
+function includeNoPoster(movie, filters) {
+  return filters.showNoPoster || movie.posterUrl !== undefined;
+}
+
+function inDateRange(movie, filters) {
+  const { minYear, maxYear } = filters;
+
+  return minYear <= movie.release_year && movie.release_year <= maxYear;
+}
+
 function shouldShow(movie, filters) {
-  return containsFilterText(movie, filters);
+  return containsFilterText(movie, filters) &&
+         includeNoPoster(movie, filters) &&
+         inDateRange(movie, filters);
 }
 
 export default function(movies, filters) {

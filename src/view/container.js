@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchMovies, updateFilterText } from '../actions';
+import { fetchMovies, updateFilterText, updateDateRange, updateShowNoPoster } from '../actions';
 import ControlPanel from './control_panel';
 import Movies from './movies';
 
@@ -16,13 +16,25 @@ let Container = React.createClass({
     dispatch(updateFilterText(text));
   },
 
+  onDateRangeChanged(minYear, maxYear) {
+    const { dispatch } = this.props;
+    dispatch(updateDateRange(minYear, maxYear));
+  },
+
+  onShowNoPoster(showNoPoster) {
+    const { dispatch } = this.props;
+    dispatch(updateShowNoPoster(showNoPoster));
+  },
+
   render() {
-    const { movies } = this.props.movies;
-    const { filters } = this.props;
+    const { moviesState, filters } = this.props;
 
     return <div className="container">
-             <ControlPanel onFilterTextChanged={this.onFilterTextChanged}/>
-             <Movies movies={movies} filters={filters}/>
+             <ControlPanel moviesState={moviesState}
+                           onFilterTextChanged={this.onFilterTextChanged}
+                           onDateRangeChanged={this.onDateRangeChanged}
+                           onShowNoPoster={this.onShowNoPoster}/>
+             <Movies movies={moviesState.movies} filters={filters}/>
            </div>;
   }
 });

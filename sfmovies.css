@@ -12,6 +12,7 @@ body {
 .movies {
   width: 100%;
   overflow: hidden;
+  margin: 50px;
 }
 
 .movie {
