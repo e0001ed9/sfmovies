@@ -3,9 +3,10 @@ export default function(rawMovieList) {
   var unique = [];
 
   for (var i = 0; i < rawMovieList.length; i++) {
-    if (titles[rawMovieList[i]['title']] === undefined) {
+    const title = rawMovieList[i]['title'].trim();
+    if (titles[title] === undefined) {
       unique.push(rawMovieList[i]);
-      titles[rawMovieList[i]['title']] = 1;
+      titles[title] = 1;
     }
   }
 

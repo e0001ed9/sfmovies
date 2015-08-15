@@ -1,3 +1,9 @@
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 100%;
+  background: #ddd;
+}
+
 .controlpanel header {
   width: 80%;
   background: #aaa;
@@ -6,47 +12,75 @@
 .movies {
   width: 100%;
   overflow: hidden;
-  -webkit-column-count: 3;
-  -webkit-column-gap: 30px;
-  -webkit-column-fill: auto;
-  -moz-column-count: 3;
-  -moz-column-gap: 30px;
-  -moz-column-fill: auto;
-  column-count: 3;
-  column-gap: 30px;
-  column-fill: auto;
-  background: #ddd;
 }
 
 .movie {
-  margin-bottom: 30px;
-  -webkit-column-break-inside: avoid;
-  -moz-column-break-inside: avoid;
-  column-break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  width: 236px; /* hello, pinterest */
+  overflow: hidden;
+  margin: 5px 10px;
+  box-shadow: 1px 1px 1px #888;
+  border-radius: 10px;
 }
 
 .movie img {
   width: 236px;
+  flex-grow: 1;
+  border-radius: 10px 10px 0 0;
 }
 
-@media only screen and ( max-width: 640px ) {
-  .movies {
-    -webkit-column-count: 2;
-    -webkit-column-gap: 15px;
-    -moz-column-count: 2;
-    -moz-column-gap: 15px;
-    column-count: 2;
-    column-gap: 15px;
-  }
-
-  .movie {
-    margin-bottom: 15px; /* 15px */
-  }
+.movie .details {
+  background: #eee;
+  border-radius: 0 0 10px 10px;
+  padding: 10px;
 }
-@media only screen and ( max-width: 320px ) {
-  .movie {
-    -webkit-column-count: auto;
-    -moz-column-count: auto;
-    column-count: auto;
-  }
+
+.title-year {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-year div {
+  display: inline-block;
+}
+
+.title {
+  font-weight: bold;
+}
+
+a:link.imdb-link {
+  color: #000;
+}
+
+a:visited.imdb-link {
+  color: #888;
+}
+
+a:hover.imdb-link {
+  color: #ddd;
+}
+
+a:active.imdb-link {
+  color: #fff;
+}
+
+.year {
+  font-weight: 100;
+}
+
+.director-wrapper {
+  font-size: 90%;
+  font-weight: 100;
+}
+
+.director-name {
+  font-weight: normal;
+}
+
+.plot {
+  margin-top: 0.25em;
+  padding-top: 0.25em;
+  border-top: 1px solid #888;
+  font-size: 90%;
 }

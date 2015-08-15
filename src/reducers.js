@@ -14,8 +14,9 @@ const movieReductions = {
   [ RECEIVE_OMDB ]: function(state, action) {
     return Object.assign({}, state, {
       movies: updateIndex(state.movies, action.index, {
-        posterUrl: action.metadata.Poster,
-        plot: action.metadata.Plot
+        posterUrl: action.metadata.Poster === 'N/A' ? undefined : action.metadata.Poster,
+        plot: action.metadata.Plot === 'N/A' ? undefined : action.metadata.Plot,
+        imdb: action.metadata.imdbID === undefined ? undefined : `http://www.imdb.com/title/${action.metadata.imdbID}`
       })
     });
   }

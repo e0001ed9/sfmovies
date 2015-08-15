@@ -1,3 +1,4 @@
+import URI from 'URIjs';
 import fetch from 'isomorphic-fetch';
 import sodaTransformer from './soda_transformer';
 
@@ -48,7 +49,11 @@ function fetchOmdb(movies, index=0) {
   return dispatch => {
     if (index < movies.length && movies[index].title !== undefined) {
       dispatch(requestOmdb(index));
-      return fetch(encodeURI(`http://www.omdbapi.com/?t=${movies[index].title}&y=&plot=short&r=json`))
+
+      const uri = URI('http://www.omdbapi.com/?y=&plot=short&r=json')
+        .query({ t: movies[index].title, year: movies[index].release_year });
+
+      return fetch(uri)
         .then(req => req.json())
         .then(json => handleOmdb(dispatch, movies, index, json));
     } else {
