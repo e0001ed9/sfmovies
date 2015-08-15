@@ -45,16 +45,26 @@ function handleOmdb(dispatch, movies, index, json) {
   dispatch(fetchOmdb(movies, index + 1));
 }
 
+function repairBrokenOmdbJson(text) {
+  return text.replace(/([^"]),"/g, '$1","');
+}
+
 function fetchOmdb(movies, index=0) {
   return dispatch => {
     if (index < movies.length && movies[index].title !== undefined) {
       dispatch(requestOmdb(index));
 
-      const uri = URI('http://www.omdbapi.com/?y=&plot=short&r=json')
-        .query({ t: movies[index].title, year: movies[index].release_year });
+      const uri = URI('http://www.omdbapi.com/')
+        .query({
+          t: movies[index].title,
+          year: movies[index].release_year
+          plot: 'short',
+          r: 'json'
+        });
 
       return fetch(uri)
-        .then(req => req.json())
+        .then(req => req.text())
+        .then(text => JSON.parse(repairBrokenOmdbJson(text)))
         .then(json => handleOmdb(dispatch, movies, index, json));
     } else {
       return true;
