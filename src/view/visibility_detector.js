@@ -1,4 +1,8 @@
-export default {
+export default class {
+  constructor(component) {
+    this.component = component;
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (document.hidden)
       return false;
@@ -8,32 +12,35 @@ export default {
     } else {
       return this._wasRendered = false;
     }
-  },
+  }
 
   componentDidMount() {
-    window.addEventListener('scroll', this._checkViewport);
-    this._interval = setInterval(this._checkViewport(), 1000);
-  },
+    window.addEventListener('scroll', this._checkViewport.bind(this));
+    this._interval = setInterval(this._checkViewport.bind(this), 1000);
+  }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._checkViewport);
+    window.removeEventListener('scroll', this._checkViewport.bind(this));
     clearInterval(this._interval);
-  },
+  }
 
-  // mixin private methods
   _checkViewport() {
     if (!this._wasRendered && this._inViewport()) {
       this._wasRendered = true;
-      this.forceUpdate()
+      this.component.forceUpdate()
     }
-  },
+  }
 
   _inViewport() {
-    const rect = this.getDOMNode().getBoundingClientRect();
+    if (this.component.getDOMNode() === null) {
+      return false;
+    }
+
+    const rect = this.component.getDOMNode().getBoundingClientRect();
 
     const vpHeight = window.innerHeight || document.documentElement.clientHeight;
     const vpWidth = window.innerWidth || document.documentElement.clientWidth;
 
     return rect.bottom >= 0 && rect.right >= 0 && rect.top <= vpHeight && rect.left <= vpWidth;
   }
-};
+}

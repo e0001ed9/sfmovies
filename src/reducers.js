@@ -1,17 +1,20 @@
-import { REQUEST_MOVIES, RECEIVE_MOVIES, REQUEST_OMDB, RECEIVE_OMDB } from './actions';
+import { combineReducers } from 'redux';
+import { FILTER_TEXT, REQUEST_MOVIES, RECEIVE_MOVIES, REQUEST_OMDB, RECEIVE_OMDB } from './actions';
 
-/// TODO: user input reducer
+const userInputReductions = {
+  [ FILTER_TEXT ]: (state, action) => Object.assign({}, state, { text: action.text })
+};
 
 const movieReductions = {
   [ REQUEST_MOVIES ]: (state) => Object.assign({}, state, { isFetching: true }),
   [ RECEIVE_MOVIES ]: (state, action) => Object.assign({}, state, { movies: action.movies }),
-  [ REQUEST_OMDB ]: function(state, action) {
-    // TODO actually use this value
+  [ REQUEST_OMDB ]: (state, action) => {
+    // currently unused
     return Object.assign({}, state, {
       movies: updateIndex(state.movies, action.index, { isFetching: true })
     });
   },
-  [ RECEIVE_OMDB ]: function(state, action) {
+  [ RECEIVE_OMDB ]: (state, action) => {
     return Object.assign({}, state, {
       movies: updateIndex(state.movies, action.index, {
         posterUrl: action.metadata.Poster === 'N/A' ? undefined : action.metadata.Poster,
@@ -29,8 +32,6 @@ function updateIndex(movies, index, assignment) {
           ...movies.slice(index+1)];
 }
 
-const initialState = { isFetching: false, movies: [] };
-
 function createReducer(reductions, initialState = {}) {
   return function(state = initialState, action) {
     let reduction = reductions[action.type];
@@ -43,4 +44,7 @@ function createReducer(reductions, initialState = {}) {
   };
 }
 
-export default createReducer(movieReductions, initialState);
+export default combineReducers({
+  filters: createReducer(userInputReductions, { text: '' } ),
+  movies: createReducer(movieReductions, { isFetching: false, movies: [] })
+});

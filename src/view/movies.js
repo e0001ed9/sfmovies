@@ -1,6 +1,7 @@
 import React from 'react';
 import _Masonry from 'react-masonry-component';
-import inViewportMixin from '../mixins/in_viewport_mixin'
+import VisibilityDetector from './visibility_detector'
+import filteredMovies from '../movie_filters'
 
 const Masonry = _Masonry(React);
 
@@ -39,12 +40,26 @@ const Director = React.createClass({
 const Plot = React.createClass({
   render() {
     const { plot } = this.props;
-    return plot === undefined ?  <div/> : <div className='plot'>{plot}</div>;
+    return plot === undefined ? false : <div className='plot'>{plot}</div>;
   }
 });
 
 const Movie = React.createClass({
-  mixins: [ inViewportMixin ],
+  getInitialState() {
+    return { visibilityDetector: new VisibilityDetector(this) }
+  },
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.visibilityDetector.shouldComponentUpdate(nextProps, nextState);
+  },
+
+  componentDidMount() {
+    this.state.visibilityDetector.componentDidMount();
+  },
+
+  componentWillUnmount() {
+    this.state.visibilityDetector.componentWillUnmount();
+  },
 
   render() {
     const { movie } = this.props;
@@ -62,9 +77,29 @@ const Movie = React.createClass({
   }
 });
 
+/*
+function containsFilterText(movie, filters) {
+  let { text } = filters;
+  text = text.toLowerCase();
+
+  return movie.title.toLowerCase().includes(text) ||
+         movie.director.toLowerCase().includes(text) ||
+         (movie.plot && movie.plot.toLowerCase().includes(text));
+}
+
+function shouldShow(movie, filters) {
+  return containsFilterText(movie, filters);
+}
+
+function filteredMovies(movies, filters) {
+  return movies.filter((elements, movie) => shouldShow(movie,filters));
+}
+*/
+
 export default React.createClass({
   render() {
-    const movies = this.props.movies.map((movie) => <Movie movie={movie}/>);
-    return <Masonry className='movies'>{movies}</Masonry>;
+    const { movies, filters } = this.props;
+    const movieElements = filteredMovies(movies, filters).map((movie) => <Movie movie={movie}/>);
+    return <Masonry className='movies'>{movieElements}</Masonry>;
   }
 });

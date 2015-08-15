@@ -8,6 +8,8 @@ export const RECEIVE_MOVIES = 'RECEIVE_MOVIES';
 export const REQUEST_OMDB = 'REQUEST_OMDB';
 export const RECEIVE_OMDB = 'RECEIVE_OMDB';
 
+export const FILTER_TEXT = 'FILTER_TEXT';
+
 // action creators
 
 function requestOmdb(index) {
@@ -34,7 +36,14 @@ function requestMovies() {
 function receiveMovies(movies) {
   return {
     type: RECEIVE_MOVIES,
-    movies: movies
+    movies
+  };
+}
+
+function filterText(text) {
+  return {
+    type: FILTER_TEXT,
+    text
   };
 }
 
@@ -57,7 +66,7 @@ function fetchOmdb(movies, index=0) {
       const uri = URI('http://www.omdbapi.com/')
         .query({
           t: movies[index].title,
-          year: movies[index].release_year
+          year: movies[index].release_year,
           plot: 'short',
           r: 'json'
         });
@@ -85,5 +94,9 @@ export function fetchMovies() {
       .then(json => sodaTransformer(json))
       .then(movies => handleMovies(dispatch, movies));
   };
+}
+
+export function updateFilterText(text) {
+  return dispatch => dispatch(filterText(text));
 }
 

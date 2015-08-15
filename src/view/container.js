@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchMovies } from '../actions';
+import { fetchMovies, updateFilterText } from '../actions';
 import ControlPanel from './control_panel';
 import Movies from './movies';
 
@@ -11,20 +11,20 @@ let Container = React.createClass({
     dispatch(fetchMovies());
   },
 
+  onFilterTextChanged(text) {
+    const { dispatch } = this.props;
+    dispatch(updateFilterText(text));
+  },
+
   render() {
-    const { movies } = this.props;
+    const { movies } = this.props.movies;
+    const { filters } = this.props;
 
     return <div className="container">
-             <ControlPanel/>
-             <Movies movies={movies}/>
+             <ControlPanel onFilterTextChanged={this.onFilterTextChanged}/>
+             <Movies movies={movies} filters={filters}/>
            </div>;
   }
 });
 
-function mapStateToProps(state) {
-  const { movies } = state;
-
-  return { movies };
-}
-
-export default connect(mapStateToProps)(Container);
+export default connect((state) => state)(Container);
