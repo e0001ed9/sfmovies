@@ -54,7 +54,7 @@ function fetchOmdb(movies, index=0) {
     } else {
       return true;
     }
-  }
+  };
 }
 
 function handleMovies(dispatch, movies) {
@@ -69,6 +69,6 @@ export function fetchMovies() {
       .then(req => req.json())
       .then(json => sodaTransformer(json))
       .then(movies => handleMovies(dispatch, movies));
-  }
+  };
 }
 
