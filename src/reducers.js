@@ -17,7 +17,9 @@ const userInputReductions = {
 const movieReductions = {
   [ REQUEST_MOVIES ]: (state) => Object.assign({}, state, { isFetching: true }),
   [ RECEIVE_MOVIES ]: (state, action) => {
-    const { earliestYear, latestYear } = action.movies.reduce(({earliestYear, latestYear}, movie) => {
+    const movies = action.movies.map((movie, index) => Object.assign({}, movie, { key: index }));
+
+    const { earliestYear, latestYear } = movies.reduce(({earliestYear, latestYear}, movie) => {
       earliestYear = Math.min(earliestYear, movie.release_year);
       latestYear = Math.max(latestYear, movie.release_year);
 
@@ -26,7 +28,7 @@ const movieReductions = {
 
     const hasFetched = true;
 
-    return Object.assign({}, state, { movies: action.movies, earliestYear, latestYear, hasFetched })
+    return Object.assign({}, state, { movies, earliestYear, latestYear, hasFetched })
   },
   [ REQUEST_OMDB ]: (state, action) => {
     // currently unused

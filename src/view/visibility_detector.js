@@ -32,11 +32,21 @@ export default class {
   }
 
   _inViewport() {
-    if (this.component.getDOMNode() === null) {
+    let node = null;
+
+    try {
+      node = this.component.getDOMNode();
+
+      if (node === null) {
+        return false;
+      }
+    } catch(e) {
+      // invariant violation: we're no longer mounted.
+      // see: http://jaketrent.com/post/set-state-in-callbacks-in-react/
       return false;
     }
 
-    const rect = this.component.getDOMNode().getBoundingClientRect();
+    const rect = node.getBoundingClientRect();
 
     const vpHeight = window.innerHeight || document.documentElement.clientHeight;
     const vpWidth = window.innerWidth || document.documentElement.clientWidth;

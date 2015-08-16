@@ -71,6 +71,11 @@ function handleOmdb(dispatch, movies, index, json) {
   dispatch(fetchOmdb(movies, index + 1));
 }
 
+// on 2015-08-15, OMDB was generating json where some of
+// the values were not quoted on both sides of the value,
+// making it unparseable. This should fix that issue, but
+// also be safe for properly formatted json. Seems to be
+// fixed as of 2015-08-16.
 function repairBrokenOmdbJson(text) {
   return text.replace(/([^"]),"/g, '$1","');
 }

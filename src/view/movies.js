@@ -80,7 +80,7 @@ const Movie = React.createClass({
 export default React.createClass({
   render() {
     const { movies, filters } = this.props;
-    const movieElements = filteredMovies(movies, filters).map((movie) => <Movie movie={movie}/>);
+    const movieElements = filteredMovies(movies, filters).map((movie) => <Movie movie={movie} key={movie.key}/>);
 
     const masonryOptions = { isFitWidth: true };
 
