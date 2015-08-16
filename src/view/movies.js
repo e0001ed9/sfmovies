@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import _Masonry from 'react-masonry-component';
+import Spinner from './spinner'
 import VisibilityDetector from './visibility_detector'
 import filteredMovies from '../movie_filters'
 
@@ -7,10 +8,11 @@ const Masonry = _Masonry(React);
 
 const Poster = React.createClass({
   fallback: 'images/fallback.jpg',
+
   render() {
     const { posterUrl } = this.props;
     return <img src={posterUrl === undefined ? this.fallback : posterUrl}/>;
-  }
+  },
 });
 
 const TitleYear = React.createClass({
@@ -25,6 +27,10 @@ const TitleYear = React.createClass({
         <div className='year'>{movie.release_year}</div>
       </div>
     );
+  },
+
+  propTypes: {
+    movie: PropTypes.object.isRequired
   }
 });
 
@@ -34,6 +40,10 @@ const Director = React.createClass({
     return (
       <div className='director-wrapper'>by <span className='director-name'>{director}</span></div>
     );
+  },
+
+  propTypes: {
+    director: PropTypes.string.isRequired
   }
 });
 
@@ -41,12 +51,16 @@ const Plot = React.createClass({
   render() {
     const { plot } = this.props;
     return plot === undefined ? false : <div className='plot'>{plot}</div>;
-  }
+  },
 });
 
 const Movie = React.createClass({
   getInitialState() {
-    return { visibilityDetector: new VisibilityDetector(this) }
+    return { visibilityDetector: new VisibilityDetector(this, this.onFirstRender) }
+  },
+
+  onFirstRender() {
+    this.props.onMovieVisible(this.props.movie);
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -66,6 +80,7 @@ const Movie = React.createClass({
 
     return (
       <div className='movie'>
+        { movie.isFetching ? <Spinner/> : '' }
         <Poster posterUrl={movie.posterUrl}/>
         <div className='details'>
           <TitleYear movie={movie}/>
@@ -74,16 +89,29 @@ const Movie = React.createClass({
         </div>
       </div>
     );
+  },
+
+  propTypes: {
+    movie: PropTypes.object.isRequired,
+    onMovieVisible: PropTypes.func.isRequired
   }
 });
 
 export default React.createClass({
   render() {
     const { movies, filters } = this.props;
-    const movieElements = filteredMovies(movies, filters).map((movie) => <Movie movie={movie} key={movie.key}/>);
+    const movieElements = filteredMovies(movies, filters).map((movie) => {
+      return <Movie movie={movie} key={movie.key} onMovieVisible={this.props.onMovieVisible}/>
+    });
 
     const masonryOptions = { isFitWidth: true };
 
     return <Masonry className='movies' options={masonryOptions}>{movieElements}</Masonry>;
+  },
+
+  propTypes: {
+    movies: PropTypes.array.isRequired,
+    filters: PropTypes.object.isRequired,
+    onMovieVisible: PropTypes.func.isRequired
   }
 });

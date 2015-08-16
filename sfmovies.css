@@ -33,7 +33,7 @@ body {
 .controlpanel header {
   width: 90%;
   padding: 10px;
-  background: #aaa;
+  background: #D95C52;
   text-align: right;
   margin: 5px 0 15px 0;
   border-radius: 5px;
@@ -178,4 +178,54 @@ a:active.imdb-link {
   padding-top: 0.25em;
   border-top: 1px solid #888;
   font-size: 90%;
+}
+
+/*
+ * spinner
+ * thanks: http://tobiasahlin.com/spinkit/
+ */
+
+.spinner {
+  /*margin: 100px auto 0;
+  width: 70px;*/
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 40%;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #C0362C;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
 }

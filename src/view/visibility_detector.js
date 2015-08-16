@@ -1,37 +1,49 @@
 export default class {
-  constructor(component) {
+  constructor(component, onFirstRender = () => {}) {
     this.component = component;
+    this.onFirstRender = onFirstRender;
+    this.hasRendered = false;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (document.hidden)
       return false;
 
-    if (this._inViewport()) {
-      return this._wasRendered = true;
+    if (this.inViewport()) {
+      this.onRender();
+      return this.wasRendered = true;
     } else {
-      return this._wasRendered = false;
+      return this.wasRendered = false;
     }
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this._checkViewport.bind(this));
-    this._interval = setInterval(this._checkViewport.bind(this), 1000);
+    window.addEventListener('scroll', this.checkViewport.bind(this));
+    this.interval = setInterval(this.checkViewport.bind(this), 1000);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._checkViewport.bind(this));
-    clearInterval(this._interval);
+    window.removeEventListener('scroll', this.checkViewport.bind(this));
+    clearInterval(this.interval);
   }
 
-  _checkViewport() {
-    if (!this._wasRendered && this._inViewport()) {
-      this._wasRendered = true;
+  onRender() {
+    if (this.hasRendered === false) {
+      this.onFirstRender();
+    }
+
+    this.hasRendered = true;
+  }
+
+  checkViewport() {
+    if (!this.wasRendered && this.inViewport()) {
+      this.onRender();
+      this.wasRendered = true;
       this.component.forceUpdate()
     }
   }
 
-  _inViewport() {
+  inViewport() {
     let node = null;
 
     try {

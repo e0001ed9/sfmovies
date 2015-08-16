@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchMovies, updateFilterText, updateDateRange, updateShowNoPoster } from '../actions';
+import { fetchMovies, fetchOmdb } from '../actions';
+import { updateFilterText, updateDateRange, updateShowNoPoster } from '../actions';
 import ControlPanel from './control_panel';
 import Movies from './movies';
 
@@ -26,6 +27,11 @@ let Container = React.createClass({
     dispatch(updateShowNoPoster(showNoPoster));
   },
 
+  onMovieVisible(movie) {
+    const { dispatch } = this.props;
+    dispatch(fetchOmdb(movie));
+  },
+
   render() {
     const { moviesState, filters } = this.props;
 
@@ -34,7 +40,9 @@ let Container = React.createClass({
                            onFilterTextChanged={this.onFilterTextChanged}
                            onDateRangeChanged={this.onDateRangeChanged}
                            onShowNoPoster={this.onShowNoPoster}/>
-             <Movies movies={moviesState.movies} filters={filters}/>
+             <Movies movies={moviesState.movies}
+                     filters={filters}
+                     onMovieVisible={this.onMovieVisible}/>
            </div>;
   }
 });

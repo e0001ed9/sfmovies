@@ -17,7 +17,7 @@ const userInputReductions = {
 const movieReductions = {
   [ REQUEST_MOVIES ]: (state) => Object.assign({}, state, { isFetching: true }),
   [ RECEIVE_MOVIES ]: (state, action) => {
-    const movies = action.movies.map((movie, index) => Object.assign({}, movie, { key: index }));
+    const movies = action.movies.map((movie, index) => Object.assign({}, movie, { index, key: index }));
 
     const { earliestYear, latestYear } = movies.reduce(({earliestYear, latestYear}, movie) => {
       earliestYear = Math.min(earliestYear, movie.release_year);
@@ -31,7 +31,6 @@ const movieReductions = {
     return Object.assign({}, state, { movies, earliestYear, latestYear, hasFetched })
   },
   [ REQUEST_OMDB ]: (state, action) => {
-    // currently unused
     return Object.assign({}, state, {
       movies: updateIndex(state.movies, action.index, { isFetching: true })
     });
@@ -39,6 +38,7 @@ const movieReductions = {
   [ RECEIVE_OMDB ]: (state, action) => {
     return Object.assign({}, state, {
       movies: updateIndex(state.movies, action.index, {
+        isFetching: false,
         posterUrl: action.metadata.Poster === 'N/A' ? undefined : action.metadata.Poster,
         plot: action.metadata.Plot === 'N/A' ? undefined : action.metadata.Plot,
         imdb: action.metadata.imdbID === undefined ? undefined : `http://www.imdb.com/title/${action.metadata.imdbID}`

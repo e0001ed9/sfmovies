@@ -66,11 +66,6 @@ function changeShowNoPoster(showNoPoster) {
 
 // helpers
 
-function handleOmdb(dispatch, movies, index, json) {
-  dispatch(receiveOmdb(index, json));
-  dispatch(fetchOmdb(movies, index + 1));
-}
-
 // on 2015-08-15, OMDB was generating json where some of
 // the values were not quoted on both sides of the value,
 // making it unparseable. This should fix that issue, but
@@ -80,41 +75,32 @@ function repairBrokenOmdbJson(text) {
   return text.replace(/([^"]),"/g, '$1","');
 }
 
-function fetchOmdb(movies, index=0) {
-  return dispatch => {
-    if (index < movies.length && movies[index].title !== undefined) {
-      dispatch(requestOmdb(index));
+export function fetchOmdb(movie) {
+  return (dispatch) => {
+    dispatch(requestOmdb(movie.index));
 
-      const uri = URI('http://www.omdbapi.com/')
-        .query({
-          t: movies[index].title,
-          year: parseInt(movies[index].release_year),
-          plot: 'short',
-          r: 'json'
-        });
+    const uri = URI('http://www.omdbapi.com/')
+      .query({
+        t: movie.title,
+        year: parseInt(movie.release_year),
+        plot: 'short',
+        r: 'json'
+      });
 
-      return fetch(uri)
-        .then(req => req.text())
-        .then(text => JSON.parse(repairBrokenOmdbJson(text)))
-        .then(json => handleOmdb(dispatch, movies, index, json));
-    } else {
-      return true;
-    }
+    return fetch(uri)
+      .then(req => req.text())
+      .then(text => JSON.parse(repairBrokenOmdbJson(text)))
+      .then(json => dispatch(receiveOmdb(movie.index, json)));
   };
 }
 
-function handleMovies(dispatch, movies) {
-  dispatch(receiveMovies(movies));
-  dispatch(fetchOmdb(movies));
-}
-
 export function fetchMovies() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestMovies());
     return fetch('https://data.sfgov.org/resource/yitu-d5am.json')
       .then(req => req.json())
       .then(json => sodaTransformer(json))
-      .then(movies => handleMovies(dispatch, movies));
+      .then(movies => dispatch(receiveMovies(movies)));
   };
 }
 
