@@ -4,12 +4,13 @@ const placeholder = 'filter...';
 
 export default React.createClass({
   getInitialState() {
-    return { text: '' };
+    return { text: '', rawText: '' };
   },
 
   handleChange(e) {
-    const text = e.target.value.trim();
-    this.setState({ text });
+    const rawText = e.target.value;
+    const text = rawText.trim();
+    this.setState({ text, rawText });
     this.props.onFilterTextChanged(text);
   },
 
@@ -18,7 +19,7 @@ export default React.createClass({
              <input type='text'
                     placeholder='filter...'
                     autofocus='true'
-                    value={this.state.text}
+                    value={this.state.rawText}
                     onChange={this.handleChange} />
            </div>;
   },
