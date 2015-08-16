@@ -8,11 +8,13 @@ export default React.createClass({
   render() {
     return <div className="controlpanel">
              <ControlPanelHeader/>
-             <div className='text-shownoposter'>
-               <ControlPanelFilterText onFilterTextChanged={this.props.onFilterTextChanged}/>
-               <ControlPanelShowNoPoster onShowNoPoster={this.props.onShowNoPoster}/>
+             <div className='controls'>
+               <div className='text-shownoposter'>
+                 <ControlPanelFilterText onFilterTextChanged={this.props.onFilterTextChanged}/>
+                 <ControlPanelShowNoPoster onShowNoPoster={this.props.onShowNoPoster}/>
+               </div>
+               <ControlPanelDateRange moviesState={this.props.moviesState} onDateRangeChanged={this.props.onDateRangeChanged}/>
              </div>
-             <ControlPanelDateRange moviesState={this.props.moviesState} onDateRangeChanged={this.props.onDateRangeChanged}/>
            </div>;
   },
 

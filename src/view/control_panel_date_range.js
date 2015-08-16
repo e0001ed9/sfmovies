@@ -49,7 +49,7 @@ export default React.createClass({
   },
 
   render() {
-    return <div></div>;
+    return <div className='daterange'></div>;
   },
 
   propTypes: {

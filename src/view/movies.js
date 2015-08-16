@@ -77,29 +77,13 @@ const Movie = React.createClass({
   }
 });
 
-/*
-function containsFilterText(movie, filters) {
-  let { text } = filters;
-  text = text.toLowerCase();
-
-  return movie.title.toLowerCase().includes(text) ||
-         movie.director.toLowerCase().includes(text) ||
-         (movie.plot && movie.plot.toLowerCase().includes(text));
-}
-
-function shouldShow(movie, filters) {
-  return containsFilterText(movie, filters);
-}
-
-function filteredMovies(movies, filters) {
-  return movies.filter((elements, movie) => shouldShow(movie,filters));
-}
-*/
-
 export default React.createClass({
   render() {
     const { movies, filters } = this.props;
     const movieElements = filteredMovies(movies, filters).map((movie) => <Movie movie={movie}/>);
-    return <Masonry className='movies'>{movieElements}</Masonry>;
+
+    const masonryOptions = { isFitWidth: true };
+
+    return <Masonry className='movies' options={masonryOptions}>{movieElements}</Masonry>;
   }
 });
