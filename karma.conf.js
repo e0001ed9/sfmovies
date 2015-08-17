@@ -1,8 +1,8 @@
 module.exports = function(config) {
   config.set({
     browsers: ['Chrome'],
-    frameworks: ['browserify', 'jasmine'],
-    files: [ 'spec/**/*.spec.js' ],
+    frameworks: ['browserify', 'jasmine', 'jasmine-matchers'],
+    files: [ 'node_modules/babel-core/browser-polyfill.js', 'spec/**/*.spec.js' ],
     preprocessors: {
       'spec/**/*.js': [ 'browserify' ]
     },
