@@ -5,17 +5,17 @@ body {
 }
 
 .container {
+  padding-top: 170px;
 }
 
 /* control panel */
 
 .controlpanel {
-  margin: inherit auto;
   width: 100%;
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 100;
-  padding: 5px;
 
   display: flex;
   align-items: center;
@@ -38,6 +38,7 @@ body {
   margin: 5px 0 15px 0;
   border-radius: 5px;
   color: #fff;
+  margin: inherit auto;
 }
 
 .controlpanel .controls {
@@ -46,6 +47,7 @@ body {
   background: #fff;
   min-height: 90px;
   border-radius: 5px;
+  margin: inherit auto;
 }
 
 .controlpanel .text-shownoposter {
@@ -90,7 +92,8 @@ body {
   width: 100%;
   padding: 0;
   overflow: hidden;
-  margin: 170px auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .movie {
