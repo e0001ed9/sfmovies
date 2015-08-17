@@ -29,7 +29,7 @@ export default React.createClass({
         behavior: 'tap-drag',
         orientation: 'horizontal',
         pips: {
-          mode: 'steps',
+          mode: 'steps'
         }
       });
 

@@ -6,7 +6,7 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var eslint = require('gulp-eslint');
 
-gulp.task('default', function (done) {
+gulp.task('test', function (done) {
   new Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true

@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import _Masonry from 'react-masonry-component';
-import Spinner from './spinner'
-import VisibilityDetector from './visibility_detector'
-import filteredMovies from '../movie_filters'
+import Spinner from './spinner';
+import VisibilityDetector from './visibility_detector';
+import filteredMovies from '../movie_filters';
 
 const Masonry = _Masonry(React);
 
@@ -12,7 +12,7 @@ const Poster = React.createClass({
   render() {
     const { posterUrl } = this.props;
     return <img src={posterUrl === undefined ? this.fallback : posterUrl}/>;
-  },
+  }
 });
 
 const TitleYear = React.createClass({
@@ -51,12 +51,12 @@ const Plot = React.createClass({
   render() {
     const { plot } = this.props;
     return plot === undefined ? false : <div className='plot'>{plot}</div>;
-  },
+  }
 });
 
 const Movie = React.createClass({
   getInitialState() {
-    return { visibilityDetector: new VisibilityDetector(this, this.onFirstRender) }
+    return { visibilityDetector: new VisibilityDetector(this, this.onFirstRender) };
   },
 
   onFirstRender() {
@@ -101,7 +101,7 @@ export default React.createClass({
   render() {
     const { movies, filters } = this.props;
     const movieElements = filteredMovies(movies, filters).map((movie) => {
-      return <Movie movie={movie} key={movie.key} onMovieVisible={this.props.onMovieVisible}/>
+      return <Movie movie={movie} key={movie.key} onMovieVisible={this.props.onMovieVisible}/>;
     });
 
     const masonryOptions = { isFitWidth: true };

@@ -6,8 +6,6 @@ export default React.createClass({
   },
 
   handleChange(e) {
-    console.log("showNoPoster");
-    console.log(e);
     this.setState({ showNoPoster: e.target.checked });
     this.props.onShowNoPoster(e.target.checked);
   },

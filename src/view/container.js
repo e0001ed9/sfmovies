@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchMovies, fetchOmdb } from '../actions';
-import { updateFilterText, updateDateRange, updateShowNoPoster } from '../actions';
+import { fetchMovies, fetchOmdb } from '../store/movie_actions';
+import { updateFilterText, updateDateRange, updateShowNoPoster } from '../store/filter_actions';
+
 import ControlPanel from './control_panel';
 import Movies from './movies';
 

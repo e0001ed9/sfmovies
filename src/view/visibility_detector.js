@@ -5,7 +5,7 @@ export default class {
     this.hasRendered = false;
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate() {
     if (document.hidden)
       return false;
 
@@ -39,7 +39,7 @@ export default class {
     if (!this.wasRendered && this.inViewport()) {
       this.onRender();
       this.wasRendered = true;
-      this.component.forceUpdate()
+      this.component.forceUpdate();
     }
   }
 

@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 
-const placeholder = 'filter...';
-
 export default React.createClass({
   getInitialState() {
     return { text: '', rawText: '' };
