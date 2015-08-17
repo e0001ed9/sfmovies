@@ -18,6 +18,14 @@ export default React.createClass({
       const minYear = moviesState.earliestYear;
       const maxYear = moviesState.latestYear;
 
+      // make pip marks at each decade as well as the min and max year
+      let pipValues = [];
+      for (let i = minYear; i <= maxYear; i++) {
+        if (i === minYear || i === maxYear || i % 10 === 0) {
+          pipValues.push(i);
+        }
+      }
+
       noUiSlider.create(this.getDOMNode(), {
         start: [ minYear, maxYear ],
         direction: 'ltr',
@@ -29,7 +37,8 @@ export default React.createClass({
         behavior: 'tap-drag',
         orientation: 'horizontal',
         pips: {
-          mode: 'steps'
+          mode: 'values',
+          values: pipValues
         }
       });
 
