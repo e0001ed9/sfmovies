@@ -1,3 +1,5 @@
+// roughly based on https://github.com/spudly/react-viewport-mixin with some improvements.
+
 export default class {
   constructor(component, onFirstRender = () => {}) {
     this.component = component;
