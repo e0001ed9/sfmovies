@@ -10,6 +10,6 @@ module.exports = function(config) {
       debug: true,
       transform: [ 'babelify', 'brfs' ]
     },
-    reporters: ['html']
+    reporters: ['html', 'progress']
   });
 };
